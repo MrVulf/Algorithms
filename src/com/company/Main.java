@@ -8,8 +8,7 @@ public class Main {
 
     private static final SwapHelper<Integer> swapHelper = new SwapHelper<>();
 
-    public static void main(String[] args) {
-    }
+    public static void main(String[] args) {}
 
     /**
      * binarySearch - the method, which calculates a position of the {@param number} in the {@param sortedNumber} list.
@@ -70,7 +69,7 @@ public class Main {
                 }
             }
             if (positionForSwap != -1) {
-                swapHelper.swapNumbersInList(numbers, i, positionForSwap);
+                swapHelper.swap(numbers, i, positionForSwap);
             }
         }
         return numbers;
@@ -91,20 +90,82 @@ public class Main {
     }
 
     /**
-     * quickSort - the method, which sorts number in the list with the method of splitting the list and sorting the parts.
+     * quickSort - the method, which sorts number in the list with the following behavior:
+     *  1. Choose a pivot - the element with which other elements will be compared.
+     *  2. Compare all elements with the pivot:
+     *      If element is more than pivot, then it should be placed on the right part is relative to the pivot.
+     *      If element is less than pivot, then it should be placed on the left part is relative to the pivot.
+     *
+     * @param array - the input number array.
+     */
+
+    public static void quickSort(int[] array) {
+        if (array.length <= 1) {
+            return;
+        }
+        quickSortInternal(array, 0, array.length - 1);
+    }
+
+    private static void quickSortInternal(int[] array, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+
+        int pivot = getPivot(array, left, right);
+        int leftPointer = left, rightPointer = right;
+
+        while(leftPointer <= rightPointer) {
+            while (array[leftPointer] < pivot) leftPointer++;
+            while (array[rightPointer] > pivot) rightPointer--;
+            if (leftPointer <= rightPointer) {
+                swap(array, leftPointer, rightPointer);
+                leftPointer++;
+                rightPointer--;
+            }
+        }
+
+        if (left < rightPointer) {
+            quickSortInternal(array, left, rightPointer);
+        }
+
+        if (right > leftPointer) {
+            quickSortInternal(array, leftPointer, right);
+        }
+
+    }
+
+    private static int getPivot(int[] array, int left, int right) {
+        int pivotPosition = left + (right - left) / 2;
+        return array[pivotPosition];
+    }
+
+    private static void swap(int[] array, int left, int right) {
+        int var = array[left];
+        array[left] = array[right];
+        array[right] = var;
+    }
+
+    /**
+     * quickSort - the method, which sorts number in the list with the following behavior:
+     *  1. Choose a pivot - the element with which other elements will be compared.
+     *  2. Compare all elements with the pivot:
+     *      If element is more than pivot, then it should be placed on the right part is relative to the pivot.
+     *      If element is less than pivot, then it should be placed on the left part is relative to the pivot.
+     * That realization uses two additional arrays: one for elements from "right" side and another one for elements from
+     * "left" side. Finally, that two arrays are merged in one.
      *
      * @param numbers    - the input number list.
      * @param comparator - object, which implements {@link java.util.Comparator}.
      * @return - new {@link List} with sorted numbers.
      */
-    public static List<Integer> quickSort(List<Integer> numbers, Comparator<Integer> comparator) {
+    public static List<Integer> quickSortWithArrays(List<Integer> numbers, Comparator<Integer> comparator) {
         if (numbers.isEmpty() || numbers.size() == 1) {
             return numbers;
         } else if (numbers.size() == 2) {
             Integer number0 = numbers.get(0);
             Integer number1 = numbers.get(1);
             if (comparator.compare(number0, number1) > 0) {
-                swapHelper.swapNumbersInList(numbers, 0, 1);
+                swapHelper.swap(numbers, 0, 1);
             }
             return numbers;
         } else {
@@ -115,8 +176,8 @@ public class Main {
 
             splitNumberListUsingSupportElement(numbers, pivotPosition, pivot, arrayLess, arrayMore, comparator);
 
-            arrayLess = quickSort(arrayLess, comparator);
-            arrayMore = quickSort(arrayMore, comparator);
+            arrayLess = quickSortWithArrays(arrayLess, comparator);
+            arrayMore = quickSortWithArrays(arrayMore, comparator);
 
             return makeResultSortedArray(arrayLess, pivot, arrayMore);
         }
