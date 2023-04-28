@@ -11,6 +11,20 @@ public class Main {
     public static void main(String[] args) {}
 
     /**
+     * factorial - the method, which calculate factorial of the {@param number}.
+     *
+     * @param number - the input number.
+     * @return - factorial of the {@param number}.
+     */
+    public static Integer factorial(Integer number) {
+        if (number.equals(1)) {
+            return 1;
+        } else {
+            return number * factorial(number - 1);
+        }
+    }
+
+    /**
      * binarySearch - the method, which calculates a position of the {@param number} in the {@param sortedNumber} list.
      *
      * @param sortedNumbers - the list with numbers, that was sorted previously.
@@ -45,6 +59,44 @@ public class Main {
     }
 
     /**
+     * The bubble sort is the sort method where algorithm compares all pairs of elements.
+     *
+     * @param array - array to sort.
+     */
+    public static void bubbleSort(int[] array) {
+        int length = array.length;
+
+        for (int i = length-1; i > 1; i--) {
+            for (int j = 0; j < i; j++) {
+                if (array[j] > array[j+1]) {
+                    swap(array, j, j + 1);
+                }
+            }
+        }
+    }
+
+    /**
+     * The Comb Sort is the modification of the bubble-sort algorithm.
+     * The main difference is comparing elements that are placed on a distance.
+     * The distance decrease with each new cycle iteration.
+     *
+     * @param array - array to sort.
+     */
+    public static void combSort(int[] array) {
+        int length = array.length;
+        int step = (int) (length / 1.247);
+
+        while (step != 0) {
+            for (int i = 0; i + step < length; i++) {
+                if (array[i] > array[i + step]) {
+                    swap(array, i, i + step);
+                }
+            }
+            step = (int) (step / 1.247);
+        }
+    }
+
+    /**
      * sortingByChoice - the method, which sorts number in the list with "choice"-criteria:
      * the method tries to find the most appropriate number at each iteration (using {@param comparator}),
      * and then insert it into the appropriate place in the list.
@@ -73,20 +125,6 @@ public class Main {
             }
         }
         return numbers;
-    }
-
-    /**
-     * factorial - the method, which calculate factorial of the {@param number}.
-     *
-     * @param number - the input number.
-     * @return - factorial of the {@param number}.
-     */
-    public static Integer factorial(Integer number) {
-        if (number.equals(1)) {
-            return 1;
-        } else {
-            return number * factorial(number - 1);
-        }
     }
 
     /**

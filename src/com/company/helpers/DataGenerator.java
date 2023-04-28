@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class NumberHelper {
+public class DataGenerator {
     private static final int radius = 100;
 
     public static List<Integer> generateNumberList(int size) {
@@ -47,5 +47,5 @@ public class NumberHelper {
         return numberList.get(position);
     }
 
-    private NumberHelper(){};
+    private DataGenerator(){};
 }
