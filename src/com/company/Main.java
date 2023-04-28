@@ -8,7 +8,8 @@ public class Main {
 
     private static final SwapHelper<Integer> swapHelper = new SwapHelper<>();
 
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+    }
 
     /**
      * factorial - the method, which calculate factorial of the {@param number}.
@@ -66,9 +67,9 @@ public class Main {
     public static void bubbleSort(int[] array) {
         int length = array.length;
 
-        for (int i = length-1; i > 1; i--) {
+        for (int i = length - 1; i > 1; i--) {
             for (int j = 0; j < i; j++) {
-                if (array[j] > array[j+1]) {
+                if (array[j] > array[j + 1]) {
                     swap(array, j, j + 1);
                 }
             }
@@ -129,10 +130,10 @@ public class Main {
 
     /**
      * quickSort - the method, which sorts number in the list with the following behavior:
-     *  1. Choose a pivot - the element with which other elements will be compared.
-     *  2. Compare all elements with the pivot:
-     *      If element is more than pivot, then it should be placed on the right part is relative to the pivot.
-     *      If element is less than pivot, then it should be placed on the left part is relative to the pivot.
+     * 1. Choose a pivot - the element with which other elements will be compared.
+     * 2. Compare all elements with the pivot:
+     * If element is more than pivot, then it should be placed on the right part is relative to the pivot.
+     * If element is less than pivot, then it should be placed on the left part is relative to the pivot.
      *
      * @param array - the input number array.
      */
@@ -152,7 +153,7 @@ public class Main {
         int pivot = getPivot(array, left, right);
         int leftPointer = left, rightPointer = right;
 
-        while(leftPointer <= rightPointer) {
+        while (leftPointer <= rightPointer) {
             while (array[leftPointer] < pivot) leftPointer++;
             while (array[rightPointer] > pivot) rightPointer--;
             if (leftPointer <= rightPointer) {
@@ -185,10 +186,10 @@ public class Main {
 
     /**
      * quickSort - the method, which sorts number in the list with the following behavior:
-     *  1. Choose a pivot - the element with which other elements will be compared.
-     *  2. Compare all elements with the pivot:
-     *      If element is more than pivot, then it should be placed on the right part is relative to the pivot.
-     *      If element is less than pivot, then it should be placed on the left part is relative to the pivot.
+     * 1. Choose a pivot - the element with which other elements will be compared.
+     * 2. Compare all elements with the pivot:
+     * If element is more than pivot, then it should be placed on the right part is relative to the pivot.
+     * If element is less than pivot, then it should be placed on the left part is relative to the pivot.
      * That realization uses two additional arrays: one for elements from "right" side and another one for elements from
      * "left" side. Finally, that two arrays are merged in one.
      *
