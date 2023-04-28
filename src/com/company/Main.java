@@ -9,6 +9,8 @@ public class Main {
     private static final SwapHelper<Integer> swapHelper = new SwapHelper<>();
 
     public static void main(String[] args) {
+        int[] example = new int[]{9, 8, 7, 6, 5, -1};
+        System.out.println(Arrays.toString(mergeSort(example)));
     }
 
     /**
@@ -98,37 +100,6 @@ public class Main {
     }
 
     /**
-     * sortingByChoice - the method, which sorts number in the list with "choice"-criteria:
-     * the method tries to find the most appropriate number at each iteration (using {@param comparator}),
-     * and then insert it into the appropriate place in the list.
-     *
-     * @param numbers    - the list with numbers.
-     * @param comparator - object, which implements {@link java.util.Comparator}.
-     * @return - sorted {@param numbers} list.
-     */
-    public static List<Integer> sortingByChoice(List<Integer> numbers, Comparator<Integer> comparator) {
-        Integer localOptimum;
-        Integer optimumCandidate;
-        int positionForSwap;
-
-        for (int i = 0; i < numbers.size() - 1; i++) {
-            localOptimum = numbers.get(i);
-            positionForSwap = -1;
-            for (int j = i + 1; j < numbers.size(); j++) {
-                optimumCandidate = numbers.get(j);
-                if (comparator.compare(localOptimum, optimumCandidate) > 0) {
-                    localOptimum = optimumCandidate;
-                    positionForSwap = j;
-                }
-            }
-            if (positionForSwap != -1) {
-                swapHelper.swap(numbers, i, positionForSwap);
-            }
-        }
-        return numbers;
-    }
-
-    /**
      * quickSort - the method, which sorts number in the list with the following behavior:
      * 1. Choose a pivot - the element with which other elements will be compared.
      * 2. Compare all elements with the pivot:
@@ -183,6 +154,80 @@ public class Main {
         array[left] = array[right];
         array[right] = var;
     }
+
+    /**
+     * The merge sort is the algorithm which divides the array into two parts: left and right.
+     * After that do the same with left and right parts recursively.
+     * When size of the input array is 1, then return array as is.
+     * When size of the input array is 2, then compare 2 elements and swap them if necessary.
+     * Sorted arrays are merged in one.
+     *
+     * @param array - array to sort.
+     * @return new instance of int[] which contains sorted elements from the original array.
+     */
+    public static int[] mergeSort(int[] array) {
+        if (array.length == 1) {
+            return array;
+        }
+
+        if (array.length == 2) {
+            if (array[0] > array[1]) {
+                int var = array[0];
+                array[0] = array[1];
+                array[1] = var;
+            }
+            return array;
+        }
+
+        int half = array.length / 2;
+        int[] left = getSubArray(array, 0, half);
+        int[] right = getSubArray(array, half + 1, array.length - 1);
+
+        return merge(mergeSort(left), mergeSort(right));
+    }
+
+    public static int[] getSubArray(int[] array, int from, int to) {
+        int[] result = new int[to - from + 1];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = array[from];
+            from++;
+        }
+        return result;
+    }
+
+    private static int[] merge(int[] left, int[] right) {
+        int[] result = new int[left.length + right.length];
+        int resultPointer = 0, leftPointer = 0, rightPointer = 0;
+
+        while (leftPointer != left.length && rightPointer != right.length) {
+            int leftElement = left[leftPointer];
+            int rightElement = right[rightPointer];
+
+            if (leftElement < rightElement) {
+                result[resultPointer] = leftElement;
+                leftPointer++;
+            } else {
+                result[resultPointer] = rightElement;
+                rightPointer++;
+            }
+            resultPointer++;
+        }
+
+        while (leftPointer != left.length) {
+            result[resultPointer] = left[leftPointer];
+            leftPointer++;
+            resultPointer++;
+        }
+
+        while (rightPointer != right.length) {
+            result[resultPointer] = right[rightPointer];
+            rightPointer++;
+            resultPointer++;
+        }
+
+        return result;
+    }
+
 
     /**
      * quickSort - the method, which sorts number in the list with the following behavior:
@@ -254,6 +299,37 @@ public class Main {
         if (!arrayFrom.isEmpty()) {
             arrayTo.addAll(arrayFrom);
         }
+    }
+
+    /**
+     * sortingByChoice - the method, which sorts number in the list with "choice"-criteria:
+     * the method tries to find the most appropriate number at each iteration (using {@param comparator}),
+     * and then insert it into the appropriate place in the list.
+     *
+     * @param numbers    - the list with numbers.
+     * @param comparator - object, which implements {@link java.util.Comparator}.
+     * @return - sorted {@param numbers} list.
+     */
+    public static List<Integer> sortingByChoice(List<Integer> numbers, Comparator<Integer> comparator) {
+        Integer localOptimum;
+        Integer optimumCandidate;
+        int positionForSwap;
+
+        for (int i = 0; i < numbers.size() - 1; i++) {
+            localOptimum = numbers.get(i);
+            positionForSwap = -1;
+            for (int j = i + 1; j < numbers.size(); j++) {
+                optimumCandidate = numbers.get(j);
+                if (comparator.compare(localOptimum, optimumCandidate) > 0) {
+                    localOptimum = optimumCandidate;
+                    positionForSwap = j;
+                }
+            }
+            if (positionForSwap != -1) {
+                swapHelper.swap(numbers, i, positionForSwap);
+            }
+        }
+        return numbers;
     }
 
 }
