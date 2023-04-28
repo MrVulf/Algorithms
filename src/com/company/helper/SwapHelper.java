@@ -1,4 +1,4 @@
-package com.company.helpers;
+package com.company.helper;
 
 import java.util.List;
 
