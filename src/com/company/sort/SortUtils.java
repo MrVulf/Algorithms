@@ -71,10 +71,6 @@ public class SortUtils {
     }
 
     private static void quickSortInternal(int[] array, int left, int right) {
-        if (left >= right) {
-            return;
-        }
-
         int pivot = getPivot(array, left, right);
         int leftPointer = left, rightPointer = right;
 
@@ -99,7 +95,7 @@ public class SortUtils {
     }
 
     private static int getPivot(int[] array, int left, int right) {
-        int pivotPosition = left + (right - left) / 2;
+        int pivotPosition = (right + left) / 2;
         return array[pivotPosition];
     }
 
@@ -136,9 +132,7 @@ public class SortUtils {
 
 
         int[] tempArray = mergeSortedArrays(array, leftBorder, half, rightBorder);
-        for (int i = 0; i < tempArray.length; i++) {
-            array[leftBorder + i] = tempArray[i];
-        }
+        System.arraycopy(tempArray, 0, array, leftBorder, tempArray.length);
 
     }
 
