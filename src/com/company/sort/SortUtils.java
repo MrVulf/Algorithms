@@ -117,6 +117,7 @@ public class SortUtils {
             return;
         }
 
+        // swap in case of 2 elements
         if (rightBorder - leftBorder + 1 == 2) {
             if (array[leftBorder] > array[rightBorder]) {
                 int var = array[leftBorder];
@@ -129,7 +130,6 @@ public class SortUtils {
         int half = leftBorder + (rightBorder - leftBorder) / 2;
         mergeSortInternal(array, leftBorder, half);
         mergeSortInternal(array, half + 1, rightBorder);
-
 
         int[] tempArray = mergeSortedArrays(array, leftBorder, half, rightBorder);
         System.arraycopy(tempArray, 0, array, leftBorder, tempArray.length);

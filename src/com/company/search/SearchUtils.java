@@ -14,28 +14,24 @@ public class SearchUtils {
     public static Integer binarySearch(List<Integer> sortedNumbers, Integer number) {
         int right = sortedNumbers.size() - 1;
         int left = 0;
-        while (true) {
-            int position = calculatePositionInBinarySearch(left, right);
-            Integer numberOnPosition = sortedNumbers.get(position);
-            if (numberOnPosition.equals(number)) {
-                return position;
-            } else {
-                if (numberOnPosition.compareTo(number) > 0) {
-                    right = position;
-                } else {
-                    left = position;
-                }
-            }
-        }
-    }
 
-    private static Integer calculatePositionInBinarySearch(Integer left, Integer right) {
-        int diff = right - left;
-        if (diff > 1) {
-            return diff / 2 + left;
-        } else {
-            return left == 0 ? left : right;
+        while (right >= left) {
+            int middlePos = left + (right - left) / 2;
+
+            Integer numberOnPosition = sortedNumbers.get(middlePos);
+            if (numberOnPosition.equals(number)) {
+                return middlePos;
+            }
+
+            if (numberOnPosition.compareTo(number) > 0) {
+                right = middlePos - 1;
+            } else {
+                left = middlePos + 1;
+            }
+
         }
+
+        return -1;
     }
 
     private SearchUtils() {}
